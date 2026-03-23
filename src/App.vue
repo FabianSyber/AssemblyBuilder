@@ -1,7 +1,3 @@
-<script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <HelloWorld />
+  <h1 class="font-heading text-2xl text-pastel-rose">Assembly Builder</h1>
 </template>
