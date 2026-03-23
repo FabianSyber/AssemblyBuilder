@@ -1,0 +1,34 @@
+:root {
+  /* Pastel palette */
+  --color-pink: #fce4ec;
+  --color-lavender: #ede7f6;
+  --color-mint: #e0f2f1;
+  --color-blue: #e3f2fd;
+  --color-peach: #fff3e0;
+  --color-rose: #ec70a0;
+  --color-purple: #6b4c7a;
+  --color-purple-light: #b8a0c8;
+
+  /* Layer tints */
+  --layer-concrete: rgba(216, 200, 240, 0.4);
+  --layer-insulation: rgba(255, 220, 235, 0.3);
+  --layer-wood: rgba(220, 200, 170, 0.35);
+  --layer-membrane: rgba(255, 210, 230, 0.5);
+  --layer-steel: rgba(200, 210, 230, 0.4);
+  --layer-air: rgba(240, 248, 255, 0.2);
+  --layer-brick: rgba(230, 200, 180, 0.4);
+  --layer-gypsum: rgba(240, 235, 245, 0.4);
+  --layer-earth: rgba(210, 195, 170, 0.4);
+
+  /* Spacing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+
+  /* Typography */
+  --font-heading: 'Poppins', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
