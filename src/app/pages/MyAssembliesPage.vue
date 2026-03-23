@@ -31,7 +31,6 @@ import { ref, computed, onMounted } from 'vue'
 import { GlassCard, BaseButton, Badge } from '../../ui'
 import SideBySide from '../../ui/comparison/SideBySide.vue'
 import { useAssemblyStore } from '../../composables/useAssemblyStore'
-import type { Assembly } from '../../types/assembly'
 const { assemblies: savedAssemblies, fetchAssemblies } = useAssemblyStore()
 onMounted(fetchAssemblies)
 const selectedIds = ref(new Set<string>())
