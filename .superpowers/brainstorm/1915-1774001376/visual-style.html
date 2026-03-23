@@ -1,0 +1,180 @@
+<h2>Visual Direction: Assembly Builder</h2>
+<p class="subtitle">Which visual style captures the right feel for the cross-section builder?</p>
+
+<div class="cards">
+  <!-- Option A: Technical Drawing -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#f8f8f5; padding:24px;">
+      <svg viewBox="0 0 400 300" width="100%" height="220">
+        <!-- Grid background -->
+        <defs>
+          <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#e0ddd5" stroke-width="0.5"/>
+          </pattern>
+          <!-- Concrete hatch -->
+          <pattern id="concrete" width="12" height="12" patternUnits="userSpaceOnUse">
+            <circle cx="3" cy="3" r="1.5" fill="#999"/>
+            <circle cx="9" cy="9" r="1" fill="#aaa"/>
+            <circle cx="6" cy="1" r="0.8" fill="#bbb"/>
+          </pattern>
+          <!-- Insulation hatch -->
+          <pattern id="insulation" width="20" height="10" patternUnits="userSpaceOnUse">
+            <path d="M0,5 Q5,0 10,5 Q15,10 20,5" fill="none" stroke="#666" stroke-width="1"/>
+          </pattern>
+          <!-- Wood hatch -->
+          <pattern id="wood" width="30" height="6" patternUnits="userSpaceOnUse">
+            <path d="M0,3 Q15,1 30,3" fill="none" stroke="#8B7355" stroke-width="0.7"/>
+            <path d="M0,5 Q10,4 30,6" fill="none" stroke="#8B7355" stroke-width="0.4"/>
+          </pattern>
+        </defs>
+        <rect width="400" height="300" fill="url(#grid)"/>
+
+        <!-- Title block style -->
+        <text x="200" y="25" text-anchor="middle" font-family="monospace" font-size="11" fill="#333" font-weight="bold">WALL ASSEMBLY — SECTION A-A</text>
+
+        <!-- Assembly layers -->
+        <rect x="60" y="45" width="280" height="40" fill="url(#concrete)" stroke="#333" stroke-width="1.5"/>
+        <rect x="60" y="85" width="280" height="15" fill="#e8e4dc" stroke="#333" stroke-width="1.5"/>
+        <rect x="60" y="100" width="280" height="80" fill="url(#insulation)" stroke="#333" stroke-width="1.5"/>
+        <rect x="60" y="180" width="280" height="25" fill="url(#wood)" stroke="#333" stroke-width="1.5"/>
+        <rect x="60" y="205" width="280" height="12" fill="#f5f0e8" stroke="#333" stroke-width="1.5"/>
+        <rect x="60" y="217" width="280" height="30" fill="#e0ddd5" stroke="#333" stroke-width="1.5"/>
+
+        <!-- Dimension lines -->
+        <line x1="45" y1="45" x2="45" y2="247" stroke="#333" stroke-width="0.8"/>
+        <line x1="40" y1="45" x2="50" y2="45" stroke="#333" stroke-width="0.8"/>
+        <line x1="40" y1="247" x2="50" y2="247" stroke="#333" stroke-width="0.8"/>
+        <text x="42" y="150" text-anchor="middle" font-family="monospace" font-size="9" fill="#333" transform="rotate(-90,42,150)">385 mm</text>
+
+        <!-- Layer labels -->
+        <text x="355" y="70" font-family="monospace" font-size="8" fill="#555">150mm Concrete</text>
+        <text x="355" y="95" font-family="monospace" font-size="8" fill="#555">15mm Vapor barrier</text>
+        <text x="355" y="145" font-family="monospace" font-size="8" fill="#555">200mm Mineral wool</text>
+        <text x="355" y="195" font-family="monospace" font-size="8" fill="#555">25mm Battens</text>
+        <text x="355" y="213" font-family="monospace" font-size="8" fill="#555">12mm Wind barrier</text>
+        <text x="355" y="237" font-family="monospace" font-size="8" fill="#555">30mm Ventilated gap</text>
+
+        <!-- GWP indicator -->
+        <rect x="60" y="260" width="280" height="30" rx="2" fill="none" stroke="#333" stroke-width="1"/>
+        <text x="200" y="278" text-anchor="middle" font-family="monospace" font-size="10" fill="#333">GWP: 42.3 kg CO₂e/m² | A1–A3</text>
+      </svg>
+    </div>
+    <div class="card-body">
+      <h3>A: Pure Technical Drawing</h3>
+      <p>Monospace fonts, dimension lines, hatching patterns per material standard. Feels like a CAD section. Grid paper background. Monochrome with subtle material tones.</p>
+    </div>
+  </div>
+
+  <!-- Option B: Bold Modern -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#1a1a2e; padding:24px;">
+      <svg viewBox="0 0 400 300" width="100%" height="220">
+        <defs>
+          <!-- Concrete hatch - light on dark -->
+          <pattern id="concrete2" width="12" height="12" patternUnits="userSpaceOnUse">
+            <circle cx="3" cy="3" r="1.5" fill="rgba(255,255,255,0.3)"/>
+            <circle cx="9" cy="9" r="1" fill="rgba(255,255,255,0.2)"/>
+          </pattern>
+          <!-- Insulation hatch -->
+          <pattern id="insulation2" width="20" height="10" patternUnits="userSpaceOnUse">
+            <path d="M0,5 Q5,0 10,5 Q15,10 20,5" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.2"/>
+          </pattern>
+        </defs>
+        <rect width="400" height="300" fill="#1a1a2e"/>
+
+        <!-- Assembly layers with bold colors -->
+        <rect x="40" y="30" width="200" height="50" fill="#4a6741" stroke="#7dba6e" stroke-width="2.5"/>
+        <rect x="40" y="30" width="200" height="50" fill="url(#concrete2)"/>
+
+        <rect x="40" y="80" width="200" height="15" fill="#8b6914" stroke="#d4a829" stroke-width="2.5"/>
+
+        <rect x="40" y="95" width="200" height="80" fill="#c44569" stroke="#ff6b8a" stroke-width="2.5"/>
+        <rect x="40" y="95" width="200" height="80" fill="url(#insulation2)"/>
+
+        <rect x="40" y="175" width="200" height="30" fill="#3d5a80" stroke="#6b9ac4" stroke-width="2.5"/>
+
+        <rect x="40" y="205" width="200" height="15" fill="#8b6914" stroke="#d4a829" stroke-width="2.5"/>
+
+        <rect x="40" y="220" width="200" height="40" fill="#4a6741" stroke="#7dba6e" stroke-width="2.5"/>
+
+        <!-- Bold labels -->
+        <text x="265" y="60" font-family="Inter, sans-serif" font-size="11" fill="#7dba6e" font-weight="700">Concrete 150mm</text>
+        <text x="265" y="92" font-family="Inter, sans-serif" font-size="11" fill="#d4a829" font-weight="700">Vapor barrier</text>
+        <text x="265" y="140" font-family="Inter, sans-serif" font-size="11" fill="#ff6b8a" font-weight="700">Insulation 200mm</text>
+        <text x="265" y="195" font-family="Inter, sans-serif" font-size="11" fill="#6b9ac4" font-weight="700">Battens 25mm</text>
+        <text x="265" y="217" font-family="Inter, sans-serif" font-size="11" fill="#d4a829" font-weight="700">Wind barrier</text>
+        <text x="265" y="245" font-family="Inter, sans-serif" font-size="11" fill="#7dba6e" font-weight="700">Cladding 30mm</text>
+
+        <!-- GWP big number -->
+        <text x="200" y="288" text-anchor="middle" font-family="Inter, sans-serif" font-size="22" fill="#fff" font-weight="800">42.3 <tspan font-size="12" fill="#888">kg CO₂e/m²</tspan></text>
+      </svg>
+    </div>
+    <div class="card-body">
+      <h3>B: Bold Dark Mode</h3>
+      <p>Dark background, color-coded layers with glowing borders, large typography for GWP numbers. Hatches overlaid on colored fills. Modern data-viz energy. Eye-catching.</p>
+    </div>
+  </div>
+
+  <!-- Option C: Hybrid -->
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#ffffff; padding:24px;">
+      <svg viewBox="0 0 400 300" width="100%" height="220">
+        <defs>
+          <pattern id="concrete3" width="12" height="12" patternUnits="userSpaceOnUse">
+            <circle cx="3" cy="3" r="1.5" fill="#bbb"/>
+            <circle cx="9" cy="9" r="1" fill="#ccc"/>
+          </pattern>
+          <pattern id="insulation3" width="20" height="10" patternUnits="userSpaceOnUse">
+            <path d="M0,5 Q5,0 10,5 Q15,10 20,5" fill="none" stroke="#e84393" stroke-width="1"/>
+          </pattern>
+          <pattern id="wood3" width="30" height="6" patternUnits="userSpaceOnUse">
+            <path d="M0,3 Q15,1 30,3" fill="none" stroke="#8B7355" stroke-width="0.7"/>
+          </pattern>
+        </defs>
+        <rect width="400" height="300" fill="#fff"/>
+
+        <!-- Clean header -->
+        <text x="20" y="22" font-family="Poppins, sans-serif" font-size="13" fill="#222" font-weight="700">Wall Assembly</text>
+        <text x="20" y="38" font-family="Inter, sans-serif" font-size="9" fill="#888">External wall — Concrete structure</text>
+
+        <!-- Assembly with PortfolioPage-style borders -->
+        <rect x="30" y="50" width="220" height="45" fill="#f0f0ec" stroke="#222" stroke-width="2"/>
+        <rect x="30" y="50" width="220" height="45" fill="url(#concrete3)"/>
+
+        <rect x="30" y="95" width="220" height="12" fill="#ffeaa7" stroke="#222" stroke-width="2"/>
+
+        <rect x="30" y="107" width="220" height="70" fill="#ffeef5" stroke="#222" stroke-width="2"/>
+        <rect x="30" y="107" width="220" height="70" fill="url(#insulation3)"/>
+
+        <rect x="30" y="177" width="220" height="22" fill="#dfe6e9" stroke="#222" stroke-width="2"/>
+        <rect x="30" y="177" width="220" height="22" fill="url(#wood3)"/>
+
+        <rect x="30" y="199" width="220" height="10" fill="#b2bec3" stroke="#222" stroke-width="2"/>
+
+        <rect x="30" y="209" width="220" height="28" fill="#dfe6e9" stroke="#222" stroke-width="2"/>
+
+        <!-- Labels with offset shadow style (PortfolioPage card feel) -->
+        <rect x="270" y="57" width="115" height="28" rx="2" fill="#fff" stroke="#222" stroke-width="2"/>
+        <rect x="273" y="60" width="115" height="28" rx="2" fill="#f8f8f5" stroke="none"/>
+        <text x="280" y="74" font-family="Inter, sans-serif" font-size="9" fill="#333" font-weight="600">Concrete 150mm</text>
+        <text x="280" y="84" font-family="monospace" font-size="8" fill="#e84393">12.4 kg CO₂e</text>
+
+        <rect x="270" y="107" width="115" height="28" rx="2" fill="#fff" stroke="#222" stroke-width="2"/>
+        <rect x="273" y="110" width="115" height="28" rx="2" fill="#f8f8f5" stroke="none"/>
+        <text x="280" y="124" font-family="Inter, sans-serif" font-size="9" fill="#333" font-weight="600">Mineral wool 200mm</text>
+        <text x="280" y="134" font-family="monospace" font-size="8" fill="#e84393">8.2 kg CO₂e</text>
+
+        <!-- Bottom bar with total -->
+        <rect x="30" y="252" width="355" height="38" rx="4" fill="#222" stroke="none"/>
+        <rect x="33" y="255" width="355" height="38" rx="4" fill="#fdf2f8" stroke="#222" stroke-width="2"/>
+        <text x="50" y="278" font-family="Poppins, sans-serif" font-size="14" fill="#222" font-weight="700">42.3</text>
+        <text x="90" y="278" font-family="Inter, sans-serif" font-size="10" fill="#666">kg CO₂e/m²</text>
+        <text x="350" y="275" text-anchor="end" font-family="monospace" font-size="9" fill="#e84393">▼ 15% vs avg</text>
+      </svg>
+    </div>
+    <div class="card-body">
+      <h3>C: Technical + Portfolio Style</h3>
+      <p>White background with bold 2px borders and offset shadows from your PortfolioPage style. Technical hatches per material, but with your pink/accent color palette. GWP per layer + total. Best of both worlds.</p>
+    </div>
+  </div>
+</div>

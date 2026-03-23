@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bash \"C:\\\\Users\\\\fabs\\\\.claude\\\\plugins\\\\cache\\\\claude-plugins-official\\\\superpowers\\\\5.0.2\\\\skills\\\\brainstorming\\\\scripts\\\\start-server.sh\" --project-dir \"C:\\\\Users\\\\fabs\\\\Documents\\\\GitHub\\\\AssemblyBuilder\")",
+      "WebFetch(domain:api-portal.boverket.se)",
+      "WebSearch",
+      "WebFetch(domain:www.boverket.se)",
+      "Bash(find:*)",
+      "Bash(curl:*)",
+      "Bash(npm create:*)",
+      "Bash(printf:*)",
+      "Bash(npx:*)",
+      "Bash(cp:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run:*)",
+      "Bash(git add:*)"
+    ]
+  }
+}
