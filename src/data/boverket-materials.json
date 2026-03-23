@@ -1,0 +1,10 @@
+[
+  {"id":"bvk-concrete-c30","name":"Betong C30/37","nameEn":"Concrete C30/37","category":"Concrete","declaredUnit":"m3","gwpA1A3":280,"densityKgM3":2400,"hatchType":"concrete"},
+  {"id":"bvk-mineral-wool","name":"Mineralull","nameEn":"Mineral wool","category":"Insulation","declaredUnit":"m3","gwpA1A3":43,"densityKgM3":30,"hatchType":"insulation"},
+  {"id":"bvk-timber-structural","name":"Konstruktionsvirke","nameEn":"Structural timber","category":"Wood","declaredUnit":"m3","gwpA1A3":-780,"densityKgM3":470,"hatchType":"wood"},
+  {"id":"bvk-gypsum-board","name":"Gipsskiva","nameEn":"Gypsum board","category":"Board","declaredUnit":"m2","gwpA1A3":3.5,"densityKgM3":null,"hatchType":"gypsum"},
+  {"id":"bvk-steel-sheet","name":"Stålplåt","nameEn":"Steel sheet","category":"Metal","declaredUnit":"kg","gwpA1A3":2.8,"densityKgM3":7850,"hatchType":"steel"},
+  {"id":"bvk-vapor-barrier","name":"Ångspärr PE-folie","nameEn":"Vapor barrier PE film","category":"Membrane","declaredUnit":"m2","gwpA1A3":1.5,"densityKgM3":null,"hatchType":"membrane"},
+  {"id":"bvk-eps","name":"EPS cellplast","nameEn":"EPS expanded polystyrene","category":"Insulation","declaredUnit":"m3","gwpA1A3":88,"densityKgM3":20,"hatchType":"insulation"},
+  {"id":"bvk-brick","name":"Tegel","nameEn":"Brick","category":"Masonry","declaredUnit":"kg","gwpA1A3":0.24,"densityKgM3":1800,"hatchType":"brick"}
+]
