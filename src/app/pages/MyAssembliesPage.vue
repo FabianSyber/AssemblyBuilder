@@ -16,7 +16,7 @@
     <!-- Assembly grid -->
     <div v-if="!comparing" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       <GlassCard v-for="a in savedAssemblies" :key="a.id" class="p-4 cursor-pointer" :overflow="true"
-        :class="{ 'ring-2 ring-[var(--color-rose)]': selectedIds.has(a.id) }" @click="toggleSelect(a.id)">
+        :active="selectedIds.has(a.id)" @click="toggleSelect(a.id)">
         <StampRow :stamps="getStampsForAssembly(a, materials)" />
         <div class="aspect-square overflow-hidden mb-3">
           <AssemblyCrossSection

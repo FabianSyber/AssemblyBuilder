@@ -1,5 +1,9 @@
 <template>
-  <div class="glass-card" :style="overflow ? { overflow: 'visible', position: 'relative' } : {}">
+  <div
+    class="glass-card"
+    :class="{ 'glass-card--active': active }"
+    :style="overflow ? { overflow: 'visible', position: 'relative' } : {}"
+  >
     <slot />
   </div>
 </template>
@@ -7,11 +11,18 @@
 <script setup lang="ts">
 defineOptions({ name: 'GlassCard' })
 
-interface Props {
+withDefaults(defineProps<{
   overflow?: boolean
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  overflow: false
+  active?: boolean
+}>(), {
+  overflow: false,
+  active: false,
 })
 </script>
+
+<style scoped>
+.glass-card--active {
+  border-color: var(--color-rose);
+  box-shadow: 10px 10px 0px 0px var(--color-rose);
+}
+</style>
