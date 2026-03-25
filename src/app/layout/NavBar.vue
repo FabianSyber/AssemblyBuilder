@@ -16,5 +16,6 @@ const links = [
   { to: '/build', label: 'Builder' },
   { to: '/my-assemblies', label: 'My Assemblies' },
   { to: '/leaderboard', label: 'Leaderboard' },
+  { to: '/stats', label: 'Stats' },
 ]
 </script>

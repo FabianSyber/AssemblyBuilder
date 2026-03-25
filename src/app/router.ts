@@ -5,6 +5,7 @@ const routes = [
   { path: '/build', name: 'builder', component: () => import('./pages/BuilderPage.vue') },
   { path: '/my-assemblies', name: 'my-assemblies', component: () => import('./pages/MyAssembliesPage.vue') },
   { path: '/leaderboard', name: 'leaderboard', component: () => import('./pages/LeaderboardPage.vue') },
+  { path: '/stats', name: 'stats', component: () => import('./pages/StatsPage.vue') },
 ]
 
 export const router = createRouter({
