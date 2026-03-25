@@ -23,6 +23,5 @@ withDefaults(defineProps<{
 <style scoped>
 .glass-card--active {
   border-color: var(--color-rose);
-  box-shadow: 10px 10px 0px 0px var(--color-rose);
 }
 </style>
