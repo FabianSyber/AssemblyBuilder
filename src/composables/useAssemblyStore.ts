@@ -2,6 +2,8 @@ import { ref } from 'vue'
 import { supabase } from '../lib/supabase'
 import type { Assembly } from '../types/assembly'
 import { useSession } from './useSession'
+import { useAchievements } from './useAchievements'
+import { useBoverket } from './useBoverket'
 
 const LOCAL_KEY = 'assemblies'
 
@@ -58,6 +60,9 @@ export function useAssemblyStore() {
     else local.push(assembly)
     saveLocal(local)
     assemblies.value = local
+    const { evaluate } = useAchievements()
+    const { materials } = useBoverket()
+    evaluate(assemblies.value, materials.value)
   }
 
   async function deleteAssembly(id: string) {
