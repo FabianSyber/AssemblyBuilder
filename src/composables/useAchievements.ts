@@ -17,6 +17,7 @@ function saveState(s: AchievementState) {
 export interface Stamp {
   icon: string
   color: string
+  name: string
 }
 
 // --- Achievement Definitions ---
@@ -231,7 +232,7 @@ export function useAchievements() {
     for (const def of achievements) {
       if (!def.stamp || !state.value[def.id] || !def.qualifiesAssembly) continue
       if (def.qualifiesAssembly(assembly, materials)) {
-        stamps.push(def.stamp)
+        stamps.push({ ...def.stamp, name: def.name })
       }
     }
     return stamps
