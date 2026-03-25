@@ -1,5 +1,21 @@
-import { describe, it, expect } from 'vitest'
-import { useAssembly } from '../useAssembly'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
+
+// Mock fetch to reject so useBoverket falls through to static fallback
+vi.stubGlobal('fetch', vi.fn(() => Promise.reject(new Error('no network in tests'))))
+
+let useAssembly: typeof import('../useAssembly')['useAssembly']
+let useBoverket: typeof import('../useBoverket')['useBoverket']
+
+beforeEach(async () => {
+  vi.resetModules()
+  const bvk = await import('../useBoverket')
+  useBoverket = bvk.useBoverket
+  // Ensure materials are loaded before tests run
+  const { fetchMaterials } = useBoverket()
+  await fetchMaterials(true)
+  const mod = await import('../useAssembly')
+  useAssembly = mod.useAssembly
+})
 
 describe('useAssembly', () => {
   it('creates a new assembly with defaults', () => {

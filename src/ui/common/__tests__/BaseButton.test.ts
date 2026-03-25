@@ -15,6 +15,6 @@ describe('BaseButton', () => {
 
   it('applies variant class', () => {
     const wrapper = mount(BaseButton, { props: { label: 'Go', variant: 'primary' } })
-    expect(wrapper.classes()).toContain('btn-primary')
+    expect(wrapper.find('.btn-primary').exists()).toBe(true)
   })
 })

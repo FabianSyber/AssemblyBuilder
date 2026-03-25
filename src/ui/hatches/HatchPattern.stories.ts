@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { defineComponent, h } from 'vue'
-import { HATCH_PATTERNS } from '../../ui/hatches/patterns'
+import { HATCH_PATTERNS } from './patterns'
 
 const TYPES = ['concrete', 'insulation', 'wood', 'membrane', 'steel', 'air', 'brick', 'gypsum', 'earth'] as const
 
@@ -38,7 +38,7 @@ const AllPatternsGrid = defineComponent({
 })
 
 const meta = {
-  title: 'Hatches/HatchPattern',
+  title: 'Atoms/HatchPattern',
   component: AllPatternsGrid,
   tags: ['autodocs'],
 } satisfies Meta<typeof AllPatternsGrid>

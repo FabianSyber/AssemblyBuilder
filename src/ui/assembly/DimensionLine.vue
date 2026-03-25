@@ -38,12 +38,24 @@
       font-family="var(--font-mono, monospace)"
       text-anchor="middle"
       dominant-baseline="middle"
+      :class="{ 'dim-label-compact': compact }"
     >{{ label }}</text>
   </g>
 </template>
 <script setup lang="ts">
 import { computed } from 'vue'
 defineOptions({ name: 'DimensionLine' })
-const props = defineProps<{ y1: number; y2: number; x: number; label: string }>()
+const props = defineProps<{ y1: number; y2: number; x: number; label: string; thicknessMm?: number }>()
 const midY = computed(() => (props.y1 + props.y2) / 2)
+const compact = computed(() => (props.thicknessMm ?? Infinity) < 40)
 </script>
+<style>
+/* Uses parent .layer-group:hover so hovering the layer rect also reveals the label */
+.dim-label-compact {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.layer-group:hover .dim-label-compact {
+  opacity: 1;
+}
+</style>

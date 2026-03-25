@@ -2,7 +2,7 @@
   <g class="gwp-bar">
     <!-- Glass bar background -->
     <rect
-      :x="0"
+      :x="x"
       :y="y"
       :width="width"
       height="48"
@@ -14,7 +14,7 @@
     />
     <!-- Total GWP number -->
     <text
-      :x="width / 2 - 40"
+      :x="x + width / 2 - 40"
       :y="y + 20"
       fill="rgba(220,210,240,0.95)"
       font-size="20"
@@ -25,7 +25,7 @@
     >{{ totalGwp }}</text>
     <!-- Unit label -->
     <text
-      :x="width / 2 - 34"
+      :x="x + width / 2 - 34"
       :y="y + 20"
       fill="rgba(180,160,200,0.75)"
       font-size="10"
@@ -34,7 +34,7 @@
     >kg CO₂e / m²</text>
     <!-- A1-A3 module tag -->
     <rect
-      :x="width / 2 + 60"
+      :x="x + width / 2 + 60"
       :y="y + 12"
       width="36"
       height="16"
@@ -45,7 +45,7 @@
       stroke-width="0.8"
     />
     <text
-      :x="width / 2 + 78"
+      :x="x + width / 2 + 78"
       :y="y + 21"
       fill="rgba(220,210,240,0.9)"
       font-size="8"
@@ -58,5 +58,5 @@
 </template>
 <script setup lang="ts">
 defineOptions({ name: 'GwpBar' })
-defineProps<{ totalGwp: number; y: number; width: number }>()
+defineProps<{ totalGwp: number; y: number; x: number; width: number }>()
 </script>

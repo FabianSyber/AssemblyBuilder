@@ -1,4 +1,4 @@
-import type { AssemblyType, StructuralCategory } from './assembly'
+import type { AssemblyType, AssemblyLayer, StructuralCategory } from './assembly'
 
 export interface LeaderboardEntry {
   id: string
@@ -8,4 +8,5 @@ export interface LeaderboardEntry {
   totalGwp: number
   displayName: string
   rank: number
+  layers?: AssemblyLayer[]
 }

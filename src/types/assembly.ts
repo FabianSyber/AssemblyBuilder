@@ -6,6 +6,7 @@ export interface AssemblyLayer {
   materialId: string
   materialName: string
   hatchType: string
+  fillOverride?: string // solid color hex or undefined to use hatch
   thicknessMm: number
   gwpPerM2: number
 }

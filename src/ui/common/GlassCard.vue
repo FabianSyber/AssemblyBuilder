@@ -1,5 +1,5 @@
 <template>
-  <div class="glass-card p-4">
+  <div class="glass-card">
     <slot />
   </div>
 </template>

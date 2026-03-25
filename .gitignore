@@ -28,3 +28,6 @@ dist-ssr
 *.sw?
 storybook-static/
 .superpowers/
+.claude/settings.local.json
+.claude/settings.local.json
+/docs/superpowers

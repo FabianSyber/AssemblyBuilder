@@ -11,6 +11,6 @@ describe('GlassCard', () => {
 
   it('applies glass-card class', () => {
     const wrapper = mount(GlassCard)
-    expect(wrapper.classes()).toContain('glass-card')
+    expect(wrapper.find('.glass-card').exists()).toBe(true)
   })
 })
