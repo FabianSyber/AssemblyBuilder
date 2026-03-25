@@ -203,4 +203,81 @@ describe('useAchievements', () => {
       expect(getStampsForAssembly(assembly, materials.value)).toEqual([])
     })
   })
+
+  describe('Mastery achievements', () => {
+    it('unlocks "triple-threat" when wall, roof, and floor exist', () => {
+      const { evaluate, state } = useAchievements()
+      const { materials } = useBoverket()
+      const base = { userId: '', structuralCategory: 'wood' as const, layers: [], totalGwp: 5, isPublic: false, createdAt: '', updatedAt: '' }
+      evaluate([
+        { ...base, id: '1', name: 'W', assemblyType: 'wall' },
+        { ...base, id: '2', name: 'R', assemblyType: 'roof' },
+        { ...base, id: '3', name: 'F', assemblyType: 'floor' },
+      ], materials.value)
+      expect(state.value['triple-threat']).toBeDefined()
+    })
+
+    it('does NOT unlock "triple-threat" with only two types', () => {
+      const { evaluate, state } = useAchievements()
+      const { materials } = useBoverket()
+      const base = { userId: '', structuralCategory: 'wood' as const, layers: [], totalGwp: 5, isPublic: false, createdAt: '', updatedAt: '' }
+      evaluate([
+        { ...base, id: '1', name: 'W', assemblyType: 'wall' },
+        { ...base, id: '2', name: 'R', assemblyType: 'roof' },
+      ], materials.value)
+      expect(state.value['triple-threat']).toBeUndefined()
+    })
+
+    it('unlocks "material-scholar" with 25+ unique materials', () => {
+      const { evaluate, state } = useAchievements()
+      const { materials } = useBoverket()
+      const mats = materials.value.slice(0, 25)
+      const layers = mats.map((m, i) => ({
+        id: `l${i}`, materialId: m.id, materialName: m.name,
+        hatchType: m.hatchType, thicknessMm: 100, gwpPerM2: 10,
+      }))
+      evaluate([{
+        id: '1', userId: '', name: 'Scholar', assemblyType: 'wall',
+        structuralCategory: 'other', layers, totalGwp: 250,
+        isPublic: false, createdAt: '', updatedAt: '',
+      }], materials.value)
+      expect(state.value['material-scholar']).toBeDefined()
+    })
+  })
+
+  describe('Rainbow achievement', () => {
+    it('unlocks with 5+ different hatchTypes in one assembly', () => {
+      const { evaluate, state } = useAchievements()
+      const { materials } = useBoverket()
+      const hatchTypes = ['concrete', 'insulation', 'wood', 'steel', 'membrane']
+      const layers = hatchTypes.map((ht, i) => {
+        const mat = materials.value.find(m => m.hatchType === ht)!
+        return {
+          id: `l${i}`, materialId: mat.id, materialName: mat.name,
+          hatchType: ht, thicknessMm: 50, gwpPerM2: 10,
+        }
+      })
+      evaluate([{
+        id: '1', userId: '', name: 'Rainbow', assemblyType: 'wall',
+        structuralCategory: 'other', layers, totalGwp: 50,
+        isPublic: false, createdAt: '', updatedAt: '',
+      }], materials.value)
+      expect(state.value['rainbow']).toBeDefined()
+    })
+
+    it('does NOT unlock with fewer than 5 hatchTypes', () => {
+      const { evaluate, state } = useAchievements()
+      const { materials } = useBoverket()
+      const layers = [
+        { id: 'l1', materialId: 'bvk-concrete-c30', materialName: 'C', hatchType: 'concrete', thicknessMm: 50, gwpPerM2: 10 },
+        { id: 'l2', materialId: 'bvk-concrete-c30', materialName: 'C', hatchType: 'concrete', thicknessMm: 50, gwpPerM2: 10 },
+      ]
+      evaluate([{
+        id: '1', userId: '', name: 'Mono', assemblyType: 'wall',
+        structuralCategory: 'concrete', layers, totalGwp: 20,
+        isPublic: false, createdAt: '', updatedAt: '',
+      }], materials.value)
+      expect(state.value['rainbow']).toBeUndefined()
+    })
+  })
 })
