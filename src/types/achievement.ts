@@ -9,7 +9,7 @@ export interface AchievementDef {
   description: string
   hint: string
   icon: string
-  stamp?: string
+  stamp?: { icon: string; color: string }
   category: AchievementCategory
   check: (assemblies: Assembly[], materials: BoverketMaterial[]) => boolean
   qualifiesAssembly?: (assembly: Assembly, materials: BoverketMaterial[]) => boolean

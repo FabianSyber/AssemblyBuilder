@@ -14,6 +14,11 @@ function saveState(s: AchievementState) {
   localStorage.setItem(LOCAL_KEY, JSON.stringify(s))
 }
 
+export interface Stamp {
+  icon: string
+  color: string
+}
+
 // --- Achievement Definitions ---
 
 export const achievements: AchievementDef[] = [
@@ -21,65 +26,86 @@ export const achievements: AchievementDef[] = [
   {
     id: 'the-minimalist', name: 'The Minimalist',
     description: 'Build a wall under 5 kgCO₂e/m²', hint: 'Build something light...',
-    icon: '🌱', stamp: '🌱', category: 'gwp',
+    icon: '🌱', stamp: { icon: '●', color: 'var(--color-mint)' }, category: 'gwp',
     check: (aa) => aa.some(a => a.assemblyType === 'wall' && a.totalGwp > 0 && a.totalGwp < 5),
     qualifiesAssembly: (a) => a.assemblyType === 'wall' && a.totalGwp > 0 && a.totalGwp < 5,
   },
   {
     id: 'light-roof', name: 'Light Roof',
     description: 'Build a roof under 8 kgCO₂e/m²', hint: 'Roofs can be light too...',
-    icon: '☁️', stamp: '☁️', category: 'gwp',
+    icon: '☁️', stamp: { icon: '○', color: 'var(--color-blue)' }, category: 'gwp',
     check: (aa) => aa.some(a => a.assemblyType === 'roof' && a.totalGwp > 0 && a.totalGwp < 8),
     qualifiesAssembly: (a) => a.assemblyType === 'roof' && a.totalGwp > 0 && a.totalGwp < 8,
   },
   {
     id: 'featherweight', name: 'Featherweight',
     description: 'Any assembly under 3 kgCO₂e/m²', hint: 'Go ultra-light...',
-    icon: '🪶', stamp: '🪶', category: 'gwp',
+    icon: '🪶', stamp: { icon: '◇', color: 'var(--color-mint)' }, category: 'gwp',
     check: (aa) => aa.some(a => a.totalGwp > 0 && a.totalGwp < 3),
     qualifiesAssembly: (a) => a.totalGwp > 0 && a.totalGwp < 3,
   },
   {
     id: 'light-floor', name: 'Light Floor',
     description: 'Build a floor under 10 kgCO₂e/m²', hint: 'Floors need not be heavy...',
-    icon: '🍃', category: 'gwp',
+    icon: '🍃', stamp: { icon: '●', color: 'var(--color-mint)' }, category: 'gwp',
     check: (aa) => aa.some(a => a.assemblyType === 'floor' && a.totalGwp > 0 && a.totalGwp < 10),
     qualifiesAssembly: (a) => a.assemblyType === 'floor' && a.totalGwp > 0 && a.totalGwp < 10,
+  },
+  {
+    id: 'heavyweight', name: 'Heavyweight',
+    description: 'Build an assembly over 20 kgCO₂e/m²', hint: 'Some builds are meant to be heavy...',
+    icon: '⚓', stamp: { icon: '■', color: 'var(--color-purple-light)' }, category: 'gwp',
+    check: (aa) => aa.some(a => a.totalGwp > 20),
+    qualifiesAssembly: (a) => a.totalGwp > 20,
   },
 
   // Creativity
   {
     id: 'layer-cake', name: 'Layer Cake',
     description: '8+ layers in one assembly', hint: 'Keep stacking...',
-    icon: '🍰', stamp: '🍰', category: 'creativity',
+    icon: '🍰', stamp: { icon: '≡', color: 'var(--color-peach)' }, category: 'creativity',
     check: (aa) => aa.some(a => a.layers.length >= 8),
     qualifiesAssembly: (a) => a.layers.length >= 8,
   },
   {
+    id: 'solid-foundation', name: 'Solid Foundation',
+    description: 'Build an assembly with 2+ layers', hint: 'Stack them up...',
+    icon: '🧱', stamp: { icon: '▤', color: 'var(--color-lavender)' }, category: 'creativity',
+    check: (aa) => aa.some(a => a.layers.length >= 2),
+    qualifiesAssembly: (a) => a.layers.length >= 2,
+  },
+  {
     id: 'wafer-thin', name: 'Wafer Thin',
     description: 'Assembly with total thickness under 50mm', hint: 'Thin is in...',
-    icon: '📄', category: 'creativity',
+    icon: '📄', stamp: { icon: '─', color: 'var(--color-blue)' }, category: 'creativity',
     check: (aa) => aa.some(a => a.layers.length > 0 && a.layers.reduce((s, l) => s + l.thicknessMm, 0) < 50),
     qualifiesAssembly: (a) => a.layers.length > 0 && a.layers.reduce((s, l) => s + l.thicknessMm, 0) < 50,
   },
   {
     id: 'the-wall', name: 'The Wall',
     description: 'Assembly with total thickness over 500mm', hint: 'Go big...',
-    icon: '🧱', category: 'creativity',
+    icon: '🧱', stamp: { icon: '█', color: 'var(--color-purple-light)' }, category: 'creativity',
     check: (aa) => aa.some(a => a.layers.reduce((s, l) => s + l.thicknessMm, 0) > 500),
     qualifiesAssembly: (a) => a.layers.reduce((s, l) => s + l.thicknessMm, 0) > 500,
   },
   {
+    id: 'thick-build', name: 'Thick Build',
+    description: 'Assembly over 200mm total thickness', hint: 'Build it thick...',
+    icon: '📐', stamp: { icon: '▮', color: 'var(--color-peach)' }, category: 'creativity',
+    check: (aa) => aa.some(a => a.layers.reduce((s, l) => s + l.thicknessMm, 0) > 200),
+    qualifiesAssembly: (a) => a.layers.reduce((s, l) => s + l.thicknessMm, 0) > 200,
+  },
+  {
     id: 'monolith', name: 'Monolith',
     description: 'Build a single-layer assembly', hint: 'Sometimes less is more...',
-    icon: '🗿', category: 'creativity',
+    icon: '🗿', stamp: { icon: '◆', color: 'var(--color-purple)' }, category: 'creativity',
     check: (aa) => aa.some(a => a.layers.length === 1),
     qualifiesAssembly: (a) => a.layers.length === 1,
   },
   {
     id: 'rainbow', name: 'Rainbow',
     description: '5+ different material categories in one assembly', hint: 'Mix it up...',
-    icon: '🌈', stamp: '🌈', category: 'creativity',
+    icon: '🌈', stamp: { icon: '◉', color: 'var(--color-rose)' }, category: 'creativity',
     check: (aa, mats) => aa.some(a => {
       const types = new Set(a.layers.map(l => mats.find(m => m.id === l.materialId)?.hatchType).filter(Boolean))
       return types.size >= 5
@@ -94,7 +120,7 @@ export const achievements: AchievementDef[] = [
   {
     id: 'triple-threat', name: 'Triple Threat',
     description: 'Build at least one wall, roof, and floor', hint: 'Try every type...',
-    icon: '🏗️', stamp: '🏗️', category: 'mastery',
+    icon: '🏗️', stamp: { icon: '△', color: 'var(--color-rose)' }, category: 'mastery',
     check: (aa) => {
       const types = new Set(aa.map(a => a.assemblyType))
       return types.has('wall') && types.has('roof') && types.has('floor')
@@ -200,8 +226,8 @@ export function useAchievements() {
     }
   }
 
-  function getStampsForAssembly(assembly: Assembly, materials: BoverketMaterial[]): string[] {
-    const stamps: string[] = []
+  function getStampsForAssembly(assembly: Assembly, materials: BoverketMaterial[]): Stamp[] {
+    const stamps: Stamp[] = []
     for (const def of achievements) {
       if (!def.stamp || !state.value[def.id] || !def.qualifiesAssembly) continue
       if (def.qualifiesAssembly(assembly, materials)) {

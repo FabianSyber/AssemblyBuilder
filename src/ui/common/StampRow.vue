@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import type { Stamp } from '../../composables/useAchievements'
 
 defineOptions({ name: 'StampRow' })
 
 const props = withDefaults(defineProps<{
-  stamps: string[]
+  stamps: Stamp[]
   maxVisible?: number
 }>(), {
   maxVisible: 4,
@@ -16,8 +17,13 @@ const overflow = computed(() => Math.max(0, props.stamps.length - props.maxVisib
 
 <template>
   <div v-if="stamps.length > 0" class="stamp-row">
-    <span v-for="(stamp, i) in visible" :key="i" class="stamp-pill">
-      {{ stamp }}
+    <span
+      v-for="(stamp, i) in visible"
+      :key="i"
+      class="stamp-pill"
+      :style="{ color: stamp.color }"
+    >
+      {{ stamp.icon }}
     </span>
     <span v-if="overflow > 0" class="stamp-pill stamp-overflow">
       +{{ overflow }}
@@ -41,14 +47,15 @@ const overflow = computed(() => Math.max(0, props.stamps.length - props.maxVisib
   justify-content: center;
   width: 22px;
   height: 22px;
-  font-size: 13px;
+  font-size: 14px;
   border-radius: 9999px;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(4px);
+  background: rgba(255, 255, 255, 0.85);
+  border: 1.5px solid rgba(200, 180, 230, 0.3);
+  line-height: 1;
 }
 .stamp-overflow {
   font-size: 10px;
-  color: white;
+  color: var(--color-purple-light);
   font-family: var(--font-mono);
   width: auto;
   padding: 0 6px;

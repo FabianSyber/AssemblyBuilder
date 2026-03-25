@@ -188,8 +188,8 @@ describe('useAchievements', () => {
       evaluate([lightWall, heavyWall], materials.value)
       const lightStamps = getStampsForAssembly(lightWall, materials.value)
       const heavyStamps = getStampsForAssembly(heavyWall, materials.value)
-      expect(lightStamps).toContain('🌱')
-      expect(heavyStamps).not.toContain('🌱')
+      expect(lightStamps.some(s => s.color === 'var(--color-mint)')).toBe(true)
+      expect(heavyStamps.some(s => s.color === 'var(--color-mint)')).toBe(false)
     })
 
     it('returns empty array when no stamps qualify', () => {
