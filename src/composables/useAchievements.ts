@@ -91,10 +91,10 @@ export const achievements: AchievementDef[] = [
   },
   {
     id: 'thick-build', name: 'Thick Build',
-    description: 'Assembly over 200mm total thickness', hint: 'Build it thick...',
+    description: 'Assembly over 400mm total thickness', hint: 'Build it thick...',
     icon: '📐', stamp: { icon: '▮', color: 'var(--color-peach)' }, category: 'creativity',
-    check: (aa) => aa.some(a => a.layers.reduce((s, l) => s + l.thicknessMm, 0) > 200),
-    qualifiesAssembly: (a) => a.layers.reduce((s, l) => s + l.thicknessMm, 0) > 200,
+    check: (aa) => aa.some(a => a.layers.reduce((s, l) => s + l.thicknessMm, 0) > 400),
+    qualifiesAssembly: (a) => a.layers.reduce((s, l) => s + l.thicknessMm, 0) > 400,
   },
   {
     id: 'monolith', name: 'Monolith',
@@ -114,6 +114,28 @@ export const achievements: AchievementDef[] = [
     qualifiesAssembly: (a, mats) => {
       const types = new Set(a.layers.map(l => mats.find(m => m.id === l.materialId)?.hatchType).filter(Boolean))
       return types.size >= 5
+    },
+  },
+
+  {
+    id: 'organic', name: 'Organic',
+    description: 'Mostly organic materials (wood & insulation)', hint: 'Go natural...',
+    icon: '🌿', stamp: { icon: '⌀', color: 'var(--color-mint)' }, category: 'creativity',
+    check: (aa, mats) => aa.some(a => {
+      if (a.layers.length === 0) return false
+      const organic = a.layers.filter(l => {
+        const ht = mats.find(m => m.id === l.materialId)?.hatchType
+        return ht === 'wood' || ht === 'insulation'
+      })
+      return organic.length > a.layers.length / 2
+    }),
+    qualifiesAssembly: (a, mats) => {
+      if (a.layers.length === 0) return false
+      const organic = a.layers.filter(l => {
+        const ht = mats.find(m => m.id === l.materialId)?.hatchType
+        return ht === 'wood' || ht === 'insulation'
+      })
+      return organic.length > a.layers.length / 2
     },
   },
 
