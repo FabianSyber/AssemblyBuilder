@@ -40,6 +40,7 @@ const overflow = computed(() => Math.max(0, props.stamps.length - props.maxVisib
   display: flex;
   gap: 4px;
   z-index: 10;
+  overflow: visible;
 }
 .stamp-pill {
   position: relative;
@@ -61,7 +62,8 @@ const overflow = computed(() => Math.max(0, props.stamps.length - props.maxVisib
   transform: translateY(-2px);
 }
 .stamp-tooltip {
-  display: none;
+  visibility: hidden;
+  opacity: 0;
   position: absolute;
   bottom: calc(100% + 8px);
   left: 50%;
@@ -76,6 +78,8 @@ const overflow = computed(() => Math.max(0, props.stamps.length - props.maxVisib
   padding: 4px 8px;
   box-shadow: 3px 3px 0px 0px rgba(200, 180, 230, 0.3);
   pointer-events: none;
+  z-index: 50;
+  transition: opacity 0.15s ease, visibility 0.15s ease;
 }
 .stamp-tooltip::after {
   content: '';
@@ -87,7 +91,8 @@ const overflow = computed(() => Math.max(0, props.stamps.length - props.maxVisib
   border-top-color: var(--color-purple);
 }
 .stamp-pill:hover .stamp-tooltip {
-  display: block;
+  visibility: visible;
+  opacity: 1;
 }
 .stamp-overflow {
   font-size: 10px;
