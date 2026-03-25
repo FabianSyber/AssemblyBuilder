@@ -45,13 +45,14 @@ const overflow = computed(() => Math.max(0, props.stamps.length - props.maxVisib
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 22px;
-  height: 22px;
-  font-size: 14px;
+  width: 28px;
+  height: 28px;
+  font-size: 16px;
   border-radius: 9999px;
-  background: rgba(255, 255, 255, 0.85);
-  border: 1.5px solid rgba(200, 180, 230, 0.3);
+  background: var(--color-purple);
+  border: 2px solid rgba(200, 180, 230, 0.4);
   line-height: 1;
+  box-shadow: 2px 2px 0px 0px rgba(200, 180, 230, 0.3);
 }
 .stamp-overflow {
   font-size: 10px;
