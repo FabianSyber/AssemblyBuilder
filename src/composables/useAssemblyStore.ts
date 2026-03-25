@@ -41,6 +41,9 @@ export function useAssemblyStore() {
       assemblies.value = loadLocal()
     }
     loading.value = false
+    const { evaluate } = useAchievements()
+    const { materials } = useBoverket()
+    evaluate(assemblies.value, materials.value)
   }
 
   async function saveAssembly(assembly: Assembly) {
