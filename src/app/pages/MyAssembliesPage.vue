@@ -4,7 +4,7 @@
 
     <!-- Action bar -->
     <div v-if="savedAssemblies.length > 0 && !comparing" class="flex flex-wrap items-center gap-3 mb-6">
-      <BaseButton v-if="selectedIds.size >= 2" :label="`Compare ${selectedIds.size}`" variant="primary" @click="comparing = true" />
+      <BaseButton v-if="selectedIds.size >= 2" :label="`Compare ${selectedIds.size}`" variant="primary" @click="() => { comparing = true; record('comparison') }" />
       <BaseButton v-if="selectedIds.size === 1" label="Edit" variant="secondary" @click="editSelected" />
       <BaseButton v-if="selectedIds.size > 0" label="Delete" variant="ghost" @click="deleteTarget = 'selected'" />
       <BaseButton v-if="selectedIds.size > 0" label="Clear selection" variant="ghost" @click="selectedIds = new Set()" />
@@ -15,8 +15,9 @@
 
     <!-- Assembly grid -->
     <div v-if="!comparing" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      <GlassCard v-for="a in savedAssemblies" :key="a.id" class="p-4 cursor-pointer"
+      <GlassCard v-for="a in savedAssemblies" :key="a.id" class="p-4 cursor-pointer" :overflow="true"
         :class="{ 'ring-2 ring-[var(--color-rose)]': selectedIds.has(a.id) }" @click="toggleSelect(a.id)">
+        <StampRow :stamps="getStampsForAssembly(a, materials)" />
         <div class="aspect-square overflow-hidden mb-3">
           <AssemblyCrossSection
             :layers="toLayers(a)"
@@ -65,12 +66,16 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { GlassCard, BaseButton, Badge, SideBySide, AssemblyCrossSection } from '../../ui'
+import { GlassCard, BaseButton, Badge, SideBySide, AssemblyCrossSection, StampRow } from '../../ui'
 import type { Assembly } from '../../types/assembly'
 import { useAssemblyStore } from '../../composables/useAssemblyStore'
+import { useAchievements } from '../../composables/useAchievements'
+import { useBoverket } from '../../composables/useBoverket'
 
 const router = useRouter()
 const { assemblies: savedAssemblies, fetchAssemblies, deleteAssembly } = useAssemblyStore()
+const { getStampsForAssembly, record } = useAchievements()
+const { materials } = useBoverket()
 onMounted(fetchAssemblies)
 
 const selectedIds = ref(new Set<string>())

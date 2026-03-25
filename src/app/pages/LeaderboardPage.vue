@@ -32,13 +32,16 @@
           <h3 class="font-heading text-sm font-semibold text-[var(--color-purple)] mb-3">My Assemblies</h3>
           <SelectableList :items="myEntries" :selectedId="selectedMyId" @select="selectedMyId = $event">
             <template #item="{ item }">
-              <span class="font-mono text-lg font-bold text-[var(--color-purple)] w-8 text-center">{{ item.rank }}</span>
-              <div class="flex-1">
-                <p class="font-body text-sm font-semibold text-[var(--color-purple)]">{{ item.name }}</p>
-                <p class="font-mono text-xs text-[var(--color-purple-light)]">{{ item.displayName }}</p>
+              <div class="relative flex items-center gap-4 w-full">
+                <StampRow v-if="item.layers && item.layers.length > 0" :stamps="getStampsForAssembly(toAssembly(item), materials)" />
+                <span class="font-mono text-lg font-bold text-[var(--color-purple)] w-8 text-center">{{ item.rank }}</span>
+                <div class="flex-1">
+                  <p class="font-body text-sm font-semibold text-[var(--color-purple)]">{{ item.name }}</p>
+                  <p class="font-mono text-xs text-[var(--color-purple-light)]">{{ item.displayName }}</p>
+                </div>
+                <span class="font-mono text-lg font-bold text-[var(--color-rose)]">{{ item.totalGwp.toFixed(2) }}</span>
+                <span class="font-mono text-xs text-[var(--color-purple-light)]">kg CO₂e/m²</span>
               </div>
-              <span class="font-mono text-lg font-bold text-[var(--color-rose)]">{{ item.totalGwp.toFixed(2) }}</span>
-              <span class="font-mono text-xs text-[var(--color-purple-light)]">kg CO₂e/m²</span>
             </template>
             <template #empty>No entries yet in this category.</template>
           </SelectableList>
@@ -57,14 +60,20 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { v4 as uuid } from 'uuid'
-import { GlassCard, SelectableList, ToggleGroup } from '../../ui'
+import { GlassCard, SelectableList, ToggleGroup, StampRow } from '../../ui'
 import { useLeaderboard } from '../../composables/useLeaderboard'
 import { useAssemblyStore } from '../../composables/useAssemblyStore'
+import { useAchievements } from '../../composables/useAchievements'
+import { useBoverket } from '../../composables/useBoverket'
+import { useSession } from '../../composables/useSession'
 import { supabase } from '../../lib/supabase'
-import type { AssemblyType, StructuralCategory } from '../../types/assembly'
+import type { AssemblyType, StructuralCategory, Assembly } from '../../types/assembly'
 import type { LeaderboardEntry } from '../../types/leaderboard'
 
 const router = useRouter()
+const { getStampsForAssembly } = useAchievements()
+const { materials } = useBoverket()
+const { displayName } = useSession()
 const isOnline = !!supabase
 const assemblyTypes = ['wall', 'roof', 'floor']
 const structuralCategories = ['concrete', 'wood', 'hybrid', 'steel', 'masonry', 'other']
@@ -88,6 +97,23 @@ const gwpDiff = computed(() => {
   if (pub && mine) return mine.totalGwp - pub.totalGwp
   return null
 })
+
+// Construct a minimal Assembly-compatible object from a LeaderboardEntry for stamp computation.
+// Only call this when entry.layers is defined and non-empty.
+function toAssembly(entry: LeaderboardEntry): Assembly {
+  return {
+    id: entry.id,
+    userId: '',
+    name: entry.name,
+    assemblyType: entry.assemblyType,
+    structuralCategory: entry.structuralCategory,
+    layers: entry.layers ?? [],
+    totalGwp: entry.totalGwp,
+    isPublic: true,
+    createdAt: '',
+    updatedAt: '',
+  }
+}
 
 async function handlePublicSelect(id: string) {
   selectedPublicId.value = id

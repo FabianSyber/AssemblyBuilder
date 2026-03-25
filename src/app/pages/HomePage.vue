@@ -31,8 +31,9 @@
         </router-link>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <GlassCard v-for="a in showcaseAssemblies" :key="a.id" class="p-4 cursor-pointer"
+        <GlassCard v-for="a in showcaseAssemblies" :key="a.id" class="p-4 cursor-pointer" :overflow="true"
           @click="navigateToAssembly(a)">
+          <StampRow :stamps="getStampsForAssembly(a, materials)" />
           <div class="mb-3 aspect-square overflow-hidden">
             <AssemblyCrossSection
               :layers="toLayers(a)"
@@ -60,12 +61,16 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { GlassCard, BaseButton, Badge, AssemblyCrossSection } from '../../ui'
+import { GlassCard, BaseButton, Badge, AssemblyCrossSection, StampRow } from '../../ui'
 import { useSession } from '../../composables/useSession'
 import { useAssemblyStore } from '../../composables/useAssemblyStore'
 import { useLeaderboard } from '../../composables/useLeaderboard'
+import { useAchievements } from '../../composables/useAchievements'
+import { useBoverket } from '../../composables/useBoverket'
 import type { Assembly } from '../../types/assembly'
 
+const { getStampsForAssembly } = useAchievements()
+const { materials } = useBoverket()
 const { isLoggedIn, setDisplayName } = useSession()
 const { assemblies: myAssemblies, fetchAssemblies } = useAssemblyStore()
 const { entries: leaderboardEntries, fetchLeaderboard } = useLeaderboard()
