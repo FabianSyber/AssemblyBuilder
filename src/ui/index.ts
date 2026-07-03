@@ -17,3 +17,9 @@ export { default as SideBySide } from './comparison/SideBySide.vue'
 
 // Stats
 export { default as AchievementCard } from './stats/AchievementCard.vue'
+
+// Onboarding
+export { default as ChallengeBanner } from './onboarding/ChallengeBanner.vue'
+
+// Benchmark
+export { default as BenchmarkPanel } from './benchmark/BenchmarkPanel.vue'

@@ -214,7 +214,19 @@ export const achievements: AchievementDef[] = [
     icon: '⚖️', category: 'exploration',
     check: () => false, // Unlocked via record('comparison'), not via evaluate
   },
+  {
+    id: 'carbon-cutter', name: 'Carbon Cutter',
+    description: 'Complete the "Halve the Wall" tutorial', hint: 'Try the tutorial from the home page...',
+    icon: '✂️', category: 'gwp',
+    check: () => false, // Unlocked via record('challenge:halve-wall'), not via evaluate
+  },
 ]
+
+// Maps a recorded event to the achievement it unlocks.
+const EVENT_UNLOCKS: Record<string, string> = {
+  comparison: 'the-comparator',
+  'challenge:halve-wall': 'carbon-cutter',
+}
 
 // --- State (module-level singleton) ---
 
@@ -240,10 +252,11 @@ export function useAchievements() {
 
   function record(event: string) {
     recordedEvents.value.add(event)
-    if (event === 'comparison' && !state.value['the-comparator']) {
+    const achId = EVENT_UNLOCKS[event]
+    if (achId && !state.value[achId]) {
       state.value = {
         ...state.value,
-        'the-comparator': { unlockedAt: new Date().toISOString(), seen: false },
+        [achId]: { unlockedAt: new Date().toISOString(), seen: false },
       }
       saveState(state.value)
     }

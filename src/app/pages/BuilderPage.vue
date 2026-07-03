@@ -1,5 +1,16 @@
 <template>
   <div class="py-8">
+    <ChallengeBanner
+      v-if="activeChallenge && challengeProgress"
+      :challenge="activeChallenge"
+      :baselineGwp="baselineGwp"
+      :currentGwp="assembly.totalGwp"
+      :targetGwp="targetGwp"
+      :progress="challengeProgress"
+      :hint="currentHint"
+      @exit="exitChallenge"
+      @finish="exitChallenge"
+    />
     <div class="flex flex-wrap items-center gap-4 mb-6">
       <input v-model="assembly.name" placeholder="Assembly name..."
         class="font-heading text-xl font-bold bg-transparent border-b-2 border-[rgba(200,180,230,0.4)] focus:border-[var(--color-rose)] outline-none px-1 py-1 text-[var(--color-purple)]" />
@@ -16,12 +27,13 @@
       <BaseButton :label="saveLabel" variant="secondary" @click="handleSave" />
     </div>
     <div class="flex flex-col lg:flex-row gap-6">
-      <div class="flex-1">
+      <div class="flex-1 space-y-4">
         <GlassCard class="p-0">
           <AssemblyCrossSection :layers="uiLayers" :title="assembly.name || 'New Assembly'"
             :subtitle="assembly.assemblyType + ' — ' + assembly.structuralCategory"
             :orientation="assembly.assemblyType === 'wall' ? 'horizontal' : 'vertical'" />
         </GlassCard>
+        <BenchmarkPanel :assemblyType="assembly.assemblyType" :gwp="assembly.totalGwp" />
       </div>
       <div class="w-full lg:w-96">
         <GlassCard class="p-4">
@@ -118,13 +130,16 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref, computed, onMounted, nextTick, h } from 'vue'
-import { useRoute } from 'vue-router'
-import { GlassCard, BaseButton, AssemblyCrossSection, DataTable } from '../../ui'
+import { ref, computed, onMounted, nextTick, watch, h } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { GlassCard, BaseButton, AssemblyCrossSection, DataTable, ChallengeBanner, BenchmarkPanel } from '../../ui'
 import type { ColumnDef } from '@tanstack/vue-table'
 import { useAssembly } from '../../composables/useAssembly'
 import { useBoverket } from '../../composables/useBoverket'
 import { useAssemblyStore } from '../../composables/useAssemblyStore'
+import { useOnboarding } from '../../composables/useOnboarding'
+import { useAchievements } from '../../composables/useAchievements'
+import { getChallenge, resolveBaseline } from '../../data/challenges'
 import type { BoverketMaterial } from '../../types/material'
 
 const materialColumns: ColumnDef<BoverketMaterial, any>[] = [
@@ -134,9 +149,28 @@ const materialColumns: ColumnDef<BoverketMaterial, any>[] = [
 ]
 
 const route = useRoute()
+const router = useRouter()
 const { assembly, addLayer, removeLayer, moveLayer, updateLayer, loadAssembly, recalculate } = useAssembly()
 const { materials, loading: materialsLoading, calcGwpPerM2 } = useBoverket()
 const { assemblies: savedAssemblies, fetchAssemblies, saveAssembly } = useAssemblyStore()
+const { active: activeChallenge, baselineGwp, targetGwp, start: startChallenge, stop: stopChallenge, progress, activeHint, complete } = useOnboarding()
+const { record } = useAchievements()
+
+const challengeProgress = computed(() => (activeChallenge.value ? progress(assembly.value.totalGwp) : null))
+const currentHint = computed(() => (activeChallenge.value ? activeHint(assembly.value.totalGwp) : ''))
+
+// Unlock the achievement the first time the target is reached.
+watch(() => challengeProgress.value?.passed, (passed, was) => {
+  if (passed && !was && activeChallenge.value) {
+    complete(activeChallenge.value.id)
+    record(`challenge:${activeChallenge.value.id}`)
+  }
+})
+
+function exitChallenge() {
+  stopChallenge()
+  router.replace({ name: 'builder' })
+}
 
 onMounted(async () => {
   const editId = route.query.editId as string | undefined
@@ -147,6 +181,23 @@ onMounted(async () => {
       loadAssembly(existing)
       recalculate()
     }
+    return
+  }
+
+  const challengeId = route.query.challenge as string | undefined
+  const challenge = challengeId ? getChallenge(challengeId) : undefined
+  if (challenge) {
+    // Materials load asynchronously; build the baseline once the catalog is ready.
+    const unwatch = watch(materials, (mats) => {
+      if (mats.length === 0) return
+      assembly.value.name = challenge.name
+      assembly.value.assemblyType = challenge.assemblyType
+      assembly.value.structuralCategory = challenge.structuralCategory
+      assembly.value.layers = []
+      resolveBaseline(challenge, mats).forEach(addLayer)
+      startChallenge(challenge, assembly.value.totalGwp)
+      unwatch()
+    }, { immediate: true })
   }
 })
 

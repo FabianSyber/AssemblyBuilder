@@ -14,8 +14,13 @@
           <BaseButton label="Start Building" variant="primary" @click="handleLogin" />
         </form>
       </GlassCard>
-      <div v-else class="flex gap-4">
-        <BaseButton label="New Assembly" variant="primary" @click="$router.push('/build')" />
+      <div v-else class="flex flex-wrap justify-center gap-4">
+        <BaseButton
+          :label="tutorialDone ? 'Replay Tutorial' : 'Start Tutorial'"
+          :variant="tutorialDone ? 'secondary' : 'primary'"
+          @click="$router.push('/build?challenge=halve-wall')"
+        />
+        <BaseButton :label="tutorialDone ? 'New Assembly' : 'Free Build'" :variant="tutorialDone ? 'primary' : 'secondary'" @click="$router.push('/build')" />
         <BaseButton label="Leaderboard" variant="secondary" @click="$router.push('/leaderboard')" />
       </div>
     </div>
@@ -66,10 +71,13 @@ import { useSession } from '../../composables/useSession'
 import { useAssemblyStore } from '../../composables/useAssemblyStore'
 import { useLeaderboard } from '../../composables/useLeaderboard'
 import { useAchievements } from '../../composables/useAchievements'
+import { useOnboarding } from '../../composables/useOnboarding'
 import { useBoverket } from '../../composables/useBoverket'
 import type { Assembly } from '../../types/assembly'
 
 const { getStampsForAssembly } = useAchievements()
+const { isDone } = useOnboarding()
+const tutorialDone = computed(() => isDone('halve-wall'))
 const { materials } = useBoverket()
 const { isLoggedIn, setDisplayName } = useSession()
 const { assemblies: myAssemblies, fetchAssemblies } = useAssemblyStore()
